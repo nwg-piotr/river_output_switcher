@@ -32,7 +32,6 @@ except ValueError:
 from gi.repository import Gtk, Gdk, GtkLayerShell
 
 outputs = {}
-windows = []
 
 
 def list_outputs():
@@ -87,11 +86,6 @@ class SwitcherWindow(Gtk.Window):
         self.show_all()
 
     def on_window_enter(self, w, e):
-        """if not self.is_focused:
-            global windows
-            for win in windows:
-                win.is_focused = False
-            self.is_focused = True"""
         subprocess.Popen('exec riverctl focus-output-name {}'.format(self.output["name"]), shell=True)
 
 
@@ -115,8 +109,6 @@ def main():
         for key in outputs:
             print(outputs[key])
             win = SwitcherWindow(outputs[key])
-            global windows
-            windows.append(win)
 
     except subprocess.CalledProcessError:
         print("wlr-randr conmmand not found")
